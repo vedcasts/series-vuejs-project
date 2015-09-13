@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue.js</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.css">
+</head>
+<body>
+
+
+    <div class="container" id="beerApp">
+        <h1>Bem vindo à série Vue.js!</h1>
+        <!--
+        <div class="well">
+            <pre>{{ $data.columnsToFilter | json }}</pre>
+        </div> -->
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <i class="fa fa-fw fa-sort"
+                            v-class="
+                                fa-sort-amount-asc:sortColumn == 'name' && sortInverse == false,
+                                fa-sort-amount-desc:sortColumn == 'name' && sortInverse == true
+                            "></i>
+                        <a href="#" v-on="click:doSort($event, 'name')">Nome</a>
+                    </th>
+                    <th>
+                        <i class="fa fa-fw fa-sort"
+                            v-class="
+                                fa-sort-amount-asc:sortColumn == 'city' && sortInverse == false,
+                                fa-sort-amount-desc:sortColumn == 'city' && sortInverse == true
+                            "></i>
+                        <a href="#" v-on="click:doSort($event, 'city')">Cidade</a>
+                    </th>
+                    <th>
+                        <i class="fa fa-fw fa-sort"
+                            v-class="
+                                fa-sort-amount-asc:sortColumn == 'state' && sortInverse == false,
+                                fa-sort-amount-desc:sortColumn == 'state' && sortInverse == true
+                            "></i>
+                        <a href="#" v-on="click:doSort($event, 'state')">Estado</a>
+                    </th>
+                    <th>
+                        <i class="fa fa-fw fa-sort"
+                            v-class="
+                                fa-sort-amount-asc:sortColumn == 'country' && sortInverse == false,
+                                fa-sort-amount-desc:sortColumn == 'country' && sortInverse == true
+                            "></i>
+                        <a href="#" v-on="click:doSort($event, 'country')">País</a>
+                    </th>
+                    <th>
+                        <i class="fa fa-fw fa-sort"
+                            v-class="
+                                fa-sort-amount-asc:sortColumn == 'last_mod' && sortInverse == false,
+                                fa-sort-amount-desc:sortColumn == 'last_mod' && sortInverse == true
+                            "></i>
+                        <a href="#" v-on="click:doSort($event, 'last_mod')">Atualizado em</a>
+                    </th>
+                    <th width="1%" nowrap>
+                        <a href="#" v-on="click:openAllDetails">
+                            <i class="fa"
+                                v-class="
+                                    fa-plus-square:openDetails.length == 0,
+                                    fa-minus-square:openDetails.length > 0
+                                "></i>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody v-repeat="cervejaria:cervejarias | orderBy sortColumn sortInverse">
+                <tr>
+                    <td>{{ cervejaria.name }}</td>
+                    <td>{{ cervejaria.city }}</td>
+                    <td>{{ cervejaria.state }}</td>
+                    <td>{{ cervejaria.country }}</td>
+                    <td>{{ cervejaria.last_mod | dateFormat 'DD/MM/YYYY HH:mm:ss' }}</td>
+                    <td>
+                        <a href="#"
+                            v-show="cervejaria.descript != ''"
+                            v-on="click:doOpenDetails($event, cervejaria.id)">
+                            <i class="fa"
+                                v-class="
+                                    fa-plus-square:openDetails.indexOf(cervejaria.id) == -1,
+                                    fa-minus-square:openDetails.indexOf(cervejaria.id) > -1"></i>
+                        </a>
+                        <i class="fa fa-plus-square"
+                            v-show="cervejaria.descript == ''"
+                            style="opacity:0.3"></i>
+                    </td>
+                </tr>
+                <tr v-show="openDetails.indexOf(cervejaria.id) > -1 && cervejaria.descript != ''">
+                    <td colspan="6">{{ cervejaria.descript }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <script src="/node_modules/jquery/dist/jquery.js"></script>
+        <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="/node_modules/vue/dist/vue.js"></script>
+        <script src="/node_modules/vue-resource/dist/vue-resource.js"></script>
+        <script src="/node_modules/moment/moment.js"></script>
+        <script src="lodash.js"></script>
+        <script src="app.js"></script>
+    </div>
+</body>
+</html>
