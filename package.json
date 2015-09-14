@@ -13,6 +13,7 @@
     "font-awesome": "^4.4.0",
     "jquery": "^2.1.4",
     "moment": "^2.10.6",
+    "select2": "^4.0.0",
     "vue": "^0.12.14",
     "vue-resource": "^0.1.15"
   }
