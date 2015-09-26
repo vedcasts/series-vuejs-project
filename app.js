@@ -1,4 +1,9 @@
 
+/**
+* Vue filter estará a disposição no HTML. Exemplo:
+* <p>{{ cervejaria.last_mod | dateFormat }}</p>
+* Documentação oficial sobre filters: http://vuejs.org/guide/filters.html
+*/
 Vue.filter('dateFormat', function(value, formatString)
 {
     if(formatString != undefined)
@@ -10,54 +15,138 @@ Vue.filter('dateFormat', function(value, formatString)
 
 new Vue({
 
+    /**
+    * Element HTML que será gerenciado
+    */
     el: '#beerApp',
 
+    /**
+    * Todas as propriedades deste objeto estará disponíveis
+    * no HTML de ID beerApp e seus filhos. Qualquer mudança
+    * nos valores do objeto será refletida no HTML.
+    */
     data: {
-        select2: null,
-        visibleColumns: ['name', 'last_mod'],
-        columnsToFilter: [],
-        filterTerm: '',
-        all: [],
-        cervejarias: [],
-        openDetails: [],
-        sortColumn: 'name',
-        sortInverse: false,
+        cervejarias: {
+            all: [],
+            list: [],
+            paginated: []
+        },
+        pagination: {
+            perPage: 8,
+            currentPage: 1,
+            totalPages: 0,
+            totalItems: 0,
+            pageNumbers: []
+        },
+        interaction: {
+            visibleColumns: ['name', 'last_mod'],
+            columnsToFilter: [],
+            filterTerm: '',
+            openDetails: [],
+            sortColumn: 'name',
+            sortInverse: false,
+        },
+        controls: {
+            select2: null,
+        }
     },
 
+    /**
+    * Os métodos abaixo estarão disponíveis no HTML
+    * de ID beerApp e seus filhos
+    */
     methods: {
+
+        setPaginationData: function(list)
+        {
+            var self = this,
+            chunk    = _.chunk(list, self.pagination.perPage);
+
+            self.cervejarias.$set('paginated', chunk);
+            self.cervejarias.$set('list', chunk[0]);
+
+            self.pagination.$set('currentPage', 1);
+            self.pagination.$set('totalItems', list.length);
+            self.pagination.$set('totalPages', Math.ceil(list.length / self.pagination.perPage));
+            self.pagination.$set('pageNumbers', _.range(1, self.pagination.totalPages+1));
+        },
+
+        page: function(ev, page)
+        {
+            ev.preventDefault();
+
+            var self = this;
+
+            self.pagination.$set('currentPage', page);
+
+            self.cervejarias.$set('list', self.cervejarias.paginated[page-1]);
+        },
+
+        next: function(ev)
+        {
+            ev.preventDefault();
+
+            var self = this;
+
+            if(self.pagination.currentPage == self.pagination.totalPages)
+            {
+                return false;
+            }
+
+            self.pagination.$set('currentPage', self.pagination.currentPage+1);
+
+            self.cervejarias.$set('list', self.cervejarias.paginated[self.pagination.currentPage-1]);
+        },
+
+        previous: function(ev)
+        {
+            ev.preventDefault();
+
+            var self = this;
+
+            if(self.pagination.currentPage == 1)
+            {
+                return false;
+            }
+
+            self.pagination.$set('currentPage', self.pagination.currentPage-1);
+
+            self.cervejarias.$set('list', self.cervejarias.paginated[self.pagination.currentPage-1]);
+        },
 
         doResetAll: function()
         {
             var self = this;
 
-            self.$set('visibleColumns', ['name', 'last_mod']);
-            self.$set('columnsToFilter', []);
-            self.$set('filterTerm', '');
-            self.$set('cervejarias', self.all);
-            self.$set('openDetails', []);
-            self.$set('sortColumn', 'name');
-            self.$set('sortInverse', false);
+            self.interaction.$set('visibleColumns', ['name', 'last_mod']);
+            self.interaction.$set('columnsToFilter', []);
+            self.interaction.$set('filterTerm', '');
+            self.interaction.$set('openDetails', []);
+            self.interaction.$set('sortColumn', 'name');
+            self.interaction.$set('sortInverse', false);
 
-            self.select2.val('').trigger('change');
+            self.setPaginationData(self.cervejarias.all);
+
+            self.controls.select2.val('').trigger('change');
         },
 
         doFilter: function()
         {
             var self = this,
-            filtered = self.all;
+            filtered = self.cervejarias.all;
 
-            if(self.filterTerm != '' && self.columnsToFilter.length > 0)
+            if(self.interaction.filterTerm != '' && self.interaction.columnsToFilter.length > 0)
             {
-                filtered = _.filter(self.all, function(cervejaria)
+                filtered = _.filter(self.cervejarias.all, function(cervejaria)
                 {
-                    return self.columnsToFilter.some(function(column)
+                    return self.interaction.columnsToFilter.some(function(column)
                     {
-                        return cervejaria[column].toLowerCase().indexOf(self.filterTerm.toLowerCase()) > -1
+                        return cervejaria[column].toLowerCase().indexOf(self.interaction.filterTerm.toLowerCase()) > -1
                     });
                 });
             }
 
-            self.$set('cervejarias', filtered);
+            self.setPaginationData(filtered);
         },
 
         doSort: function(ev, column)
@@ -66,9 +155,9 @@ new Vue({
 
             var self = this;
 
-            self.sortColumn = column;
+            self.interaction.sortColumn = column;
 
-            self.$set('sortInverse', !self.sortInverse);
+            self.interaction.$set('sortInverse', !self.interaction.sortInverse);
         },
 
         doOpenDetails: function(ev, id)
@@ -77,13 +166,13 @@ new Vue({
 
             var self = this,
 
-                index = self.openDetails.indexOf(id);
+                index = self.interaction.openDetails.indexOf(id);
 
             if(index > -1)
             {
-                self.openDetails.$remove(index);
+                self.interaction.openDetails.$remove(index);
             } else {
-                self.openDetails.push(id);
+                self.interaction.openDetails.push(id);
             }
         },
 
@@ -93,30 +182,45 @@ new Vue({
 
             var self = this;
 
-            if(self.openDetails.length > 0)
+            if(self.interaction.openDetails.length > 0)
             {
-                self.$set('openDetails', []);
+                self.interaction.$set('openDetails', []);
             } else {
-                self.$set('openDetails', _.pluck(self.cervejarias, 'id'));
+                self.interaction.$set('openDetails', _.pluck(self.cervejarias.list, 'id'));
             }
         }
     },
 
+    /**
+    * Este método será executado assim que tanto o Vue quanto
+    * o HTML de ID beerApp (e seus filhos) estiverem prontos.
+    */
     ready: function()
     {
         var self = this;
 
-        self.$http.get('http://api.beer.app/cervejarias', function(response)
+        /**
+        * Para distribuição foi adicionado ao projeto o arquivo
+        * cervejarias.json, contendo todos os dados necessários
+        * para a aplicação funcionar corretamente. Não funciona
+        * se você abrir a página index.html no browser utilizando
+        * Ctrl (CMD) + o. É preciso um virtual host.
+        * Solução: coloque o arquivo em algum de seus domínios para poder
+        * usar abaixo: http://www.seudominio.com/cervejarias.json.
+        */
+        self.$http.get('/cervejarias.json', function(response)
+        // self.$http.get('http://api.beer.app/cervejarias', function(response)
         {
-            self.$set('cervejarias', response);
-            self.$set('all', response);
+            self.cervejarias.$set('all', response);
+
+            self.setPaginationData(response);
         });
 
-        self.select2 = jQuery(self.$$.columnsToFilterSelect).select2({
+        self.controls.select2 = jQuery(self.$$.columnsToFilterSelect).select2({
             placeholder: 'Selecionar uma ou mais colunas para filtrar!'
         }).on('change', function()
         {
-            self.$set('columnsToFilter', jQuery(this).val());
+            self.interaction.$set('columnsToFilter', jQuery(this).val());
         });
     }
 });
