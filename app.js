@@ -26,6 +26,13 @@ new Vue({
     * nos valores do objeto será refletida no HTML.
     */
     data: {
+        cervejaria: {
+            name: '',
+            city: '',
+            state: '',
+            country: '',
+            descript: ''
+        },
         cervejarias: {
             all: [],
             list: [],
@@ -56,6 +63,40 @@ new Vue({
     * de ID beerApp e seus filhos
     */
     methods: {
+
+        edit: function(ev, cervejaria)
+        {
+            ev.preventDefault();
+
+            this.$set('cervejaria', cervejaria);
+
+            jQuery(this.$$.modal).modal('show');
+        },
+
+        save: function(ev)
+        {
+            ev.preventDefault();
+
+            // this.$http.post('url do servico', cervejaria, function(response)
+            // {
+
+            // });
+
+            jQuery(this.$$.modal).modal('hide');
+            window.alert('Cervejaria salva, seu bebum!');
+            window.console.log(JSON.stringify(this.cervejaria));
+        },
+
+        new: function()
+        {
+            this.cervejaria.name = '';
+            this.cervejaria.city = '';
+            this.cervejaria.state = '';
+            this.cervejaria.country = '';
+            this.cervejaria.descript = '';
+
+            jQuery(this.$$.modal).modal('show');
+        },
 
         setPaginationData: function(list)
         {
