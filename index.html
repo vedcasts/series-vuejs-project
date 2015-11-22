@@ -12,8 +12,8 @@
 
     <div class="container" id="beerApp">
 
-        <form v-on="submit:save">
-            <div class="modal fade" v-el="modal">
+        <form v-on:submit="save">
+            <div class="modal fade" v-el:modal>
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -76,7 +76,7 @@
 
                 <div class="well">
                     <button
-                        v-on="click:doResetAll"
+                        v-on:click="doResetAll"
                         class="btn btn-default btn-block">
                         Reset Geral
                     </button>
@@ -84,7 +84,7 @@
 
                 <div class="well">
                     <button
-                        v-on="click:new"
+                        v-on:click="new"
                         class="btn btn-primary btn-block">
                         Nova Cervejaria
                     </button>
@@ -96,7 +96,7 @@
                         <div class="col-md-6">
                             <input
                                 v-model="interaction.filterTerm"
-                                v-on="keyup:doFilter"
+                                v-on:keyup="doFilter"
                                 type="text"
                                 placeholder="Digite o termo para filtrar a lista"
                                 class="form-control">
@@ -104,7 +104,7 @@
                         <div class="col-md-6">
                             <select
                                 v-model="columnsToFilter"
-                                v-el="columnsToFilterSelect"
+                                v-el:columns-to-filter-select
                                 multiple
                                 class="form-control">
                                 <option value="name">Nome</option>
@@ -121,50 +121,50 @@
                         <tr>
                             <th v-show="interaction.visibleColumns.indexOf('name') > -1">
                                 <i class="fa fa-fw fa-sort"
-                                    v-class="
-                                        fa-sort-amount-asc:interaction.sortColumn == 'name' && interaction.sortInverse == false,
-                                        fa-sort-amount-desc:interaction.sortColumn == 'name' && interaction.sortInverse == true
+                                    v-bind:class="
+                                        { 'fa-sort-amount-asc':interaction.sortColumn == 'name' && interaction.sortInverse == 0,
+                                        'fa-sort-amount-desc':interaction.sortColumn == 'name' && interaction.sortInverse == -1 }
                                     "></i>
-                                <a href="#" v-on="click:doSort($event, 'name')">Nome</a>
+                                <a href="#" v-on:click="doSort($event, 'name')">Nome</a>
                             </th>
                             <th v-show="interaction.visibleColumns.indexOf('city') > -1">
                                 <i class="fa fa-fw fa-sort"
-                                    v-class="
-                                        fa-sort-amount-asc:interaction.sortColumn == 'city' && interaction.sortInverse == false,
-                                        fa-sort-amount-desc:interaction.sortColumn == 'city' && interaction.sortInverse == true
+                                    v-bind:class="
+                                        { 'fa-sort-amount-asc':interaction.sortColumn == 'city' && interaction.sortInverse == 0,
+                                        'fa-sort-amount-desc':interaction.sortColumn == 'city' && interaction.sortInverse == -1 }
                                     "></i>
-                                <a href="#" v-on="click:doSort($event, 'city')">Cidade</a>
+                                <a href="#" v-on:click="doSort($event, 'city')">Cidade</a>
                             </th>
                             <th v-show="interaction.visibleColumns.indexOf('state') > -1">
                                 <i class="fa fa-fw fa-sort"
-                                    v-class="
-                                        fa-sort-amount-asc:interaction.sortColumn == 'state' && interaction.sortInverse == false,
-                                        fa-sort-amount-desc:interaction.sortColumn == 'state' && interaction.sortInverse == true
+                                    v-bind:class="
+                                        { 'fa-sort-amount-asc':interaction.sortColumn == 'state' && interaction.sortInverse == 0,
+                                        'fa-sort-amount-desc':interaction.sortColumn == 'state' && interaction.sortInverse == -1 }
                                     "></i>
-                                <a href="#" v-on="click:doSort($event, 'state')">Estado</a>
+                                <a href="#" v-on:click="doSort($event, 'state')">Estado</a>
                             </th>
                             <th v-show="interaction.visibleColumns.indexOf('country') > -1">
                                 <i class="fa fa-fw fa-sort"
-                                    v-class="
-                                        fa-sort-amount-asc:interaction.sortColumn == 'country' && interaction.sortInverse == false,
-                                        fa-sort-amount-desc:interaction.sortColumn == 'country' && interaction.sortInverse == true
+                                    v-bind:class="
+                                        { 'fa-sort-amount-asc':interaction.sortColumn == 'country' && interaction.sortInverse == 0,
+                                        'fa-sort-amount-desc':interaction.sortColumn == 'country' && interaction.sortInverse == -1 }
                                     "></i>
-                                <a href="#" v-on="click:doSort($event, 'country')">País</a>
+                                <a href="#" v-on:click="doSort($event, 'country')">País</a>
                             </th>
                             <th v-show="interaction.visibleColumns.indexOf('last_mod') > -1">
                                 <i class="fa fa-fw fa-sort"
-                                    v-class="
-                                        fa-sort-amount-asc:interaction.sortColumn == 'last_mod' && interaction.sortInverse == false,
-                                        fa-sort-amount-desc:interaction.sortColumn == 'last_mod' && interaction.sortInverse == true
+                                    v-bind:class="
+                                        { 'fa-sort-amount-asc':interaction.sortColumn == 'last_mod' && interaction.sortInverse == 0,
+                                        'fa-sort-amount-desc':interaction.sortColumn == 'last_mod' && interaction.sortInverse == -1 }
                                     "></i>
-                                <a href="#" v-on="click:doSort($event, 'last_mod')">Atualizado em</a>
+                                <a href="#" v-on:click="doSort($event, 'last_mod')">Atualizado em</a>
                             </th>
                             <th width="1%" nowrap>
-                                <a href="#" v-on="click:openAllDetails">
+                                <a href="#" v-on:click="openAllDetails">
                                     <i class="fa"
-                                        v-class="
-                                            fa-plus-square:interaction.openDetails.length == 0,
-                                            fa-minus-square:interaction.openDetails.length > 0
+                                        v-bind:class="
+                                            { 'fa-plus-square':interaction.openDetails.length == 0,
+                                            'fa-minus-square':interaction.openDetails.length > 0 }
                                         "></i>
                                 </a>
                             </th>
@@ -173,7 +173,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody v-repeat="cervejaria:cervejarias.list | orderBy interaction.sortColumn interaction.sortInverse">
+                    <tbody v-for="cervejaria in cervejarias.list | orderBy interaction.sortColumn interaction.sortInverse">
                         <tr>
                             <td v-show="interaction.visibleColumns.indexOf('name') > -1">{{ cervejaria.name }}</td>
                             <td v-show="interaction.visibleColumns.indexOf('city') > -1">{{ cervejaria.city }}</td>
@@ -183,18 +183,18 @@
                             <td>
                                 <a href="#"
                                     v-show="cervejaria.descript != ''"
-                                    v-on="click:doOpenDetails($event, cervejaria.id)">
+                                    v-on:click="doOpenDetails($event, cervejaria.id)">
                                     <i class="fa"
-                                        v-class="
-                                            fa-plus-square:interaction.openDetails.indexOf(cervejaria.id) == -1,
-                                            fa-minus-square:interaction.openDetails.indexOf(cervejaria.id) > -1"></i>
+                                        v-bind:class="
+                                            { 'fa-plus-square':interaction.openDetails.indexOf(cervejaria.id) == -1,
+                                            'fa-minus-square':interaction.openDetails.indexOf(cervejaria.id) > -1 }"></i>
                                 </a>
                                 <i class="fa fa-plus-square"
                                     v-show="cervejaria.descript == ''"
                                     style="opacity:0.3"></i>
                             </td>
                             <td width="1%" nowrap>
-                                <a href="#" v-on="click:edit($event, cervejaria)"><i class="fa fa-fw fa-edit"></i></a>
+                                <a href="#" v-on:click="edit($event, cervejaria)"><i class="fa fa-fw fa-edit"></i></a>
                             </td>
                         </tr>
                         <tr v-show="interaction.openDetails.indexOf(cervejaria.id) > -1 && cervejaria.descript != ''">
@@ -205,18 +205,18 @@
 
                 <nav class="text-center">
                     <ul class="pagination">
-                        <li v-class="disabled:pagination.currentPage == 1">
-                            <a href="#" v-on="click:previous" aria-label="Previous">
+                        <li v-bind:class="{ disabled:pagination.currentPage == 1 }">
+                            <a href="#" v-on:click="previous" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
                         <li
-                            v-repeat="pagination.pageNumbers"
-                            v-class="active:$value == pagination.currentPage">
-                            <a href="#" v-on="click:page($event, $value)">{{ $value }}</a>
+                            v-for="pageNumber in pagination.pageNumbers"
+                            v-bind:class="{ active:pageNumber == pagination.currentPage }">
+                            <a href="#" v-on:click="page($event, pageNumber)">{{ pageNumber }}</a>
                         </li>
-                        <li v-class="disabled:pagination.currentPage == pagination.totalPages">
-                            <a href="#" v-on="click:next" aria-label="Next">
+                        <li v-bind:class="{ disabled:pagination.currentPage == pagination.totalPages }">
+                            <a href="#" v-on:click="next" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -237,7 +237,7 @@
         <script src="/node_modules/vue-resource/dist/vue-resource.js"></script>
         <script src="/node_modules/moment/moment.js"></script>
         <script src="/node_modules/select2/dist/js/select2.js"></script>
-        <script src="lodash.js"></script>
+        <script src="/node_modules/lodash/index.js"></script>
         <script src="app.js"></script>
     </div>
 </body>
