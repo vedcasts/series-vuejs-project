@@ -12,7 +12,8 @@ Assim, é obrigatório ter o Node.js/NPM instalados. Sua instalação é simples
 
 Após certificar-se de que seu ambiente atende aos pré-requisitos listados logo acima, basta usar o Terminal para navegar até a pasta do projeto e rodar o comando `npm install`. Isso criará a pasta /node_modules na raiz do projeto e ali armazenará os scripts necessários.
 
-**Única excessão** é a biblioteca Lodash que é distribuída com o projeto e encontra-se na pasta raíz.
+**Muito importante !!!**
+A série foi desenvolvida utilizando a versão 0.12.* fo Vue.js. Logo após a publicação dos videos a versão 1.0 foi lançada e uma aula tratando exclusivamente do processo de upgrade foi disponibilizada: aula 22. Para ter acesso ao código fonte das aulas 1 a 21 utilize o branch **vue0.12.x**. Para o código fonte atualizado com a versão 1.0.x utilize o branch **master**.
 
 ### Scripts to projeto
 
