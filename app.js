@@ -43,7 +43,8 @@ new Vue({
             currentPage: 1,
             totalPages: 0,
             totalItems: 0,
-            pageNumbers: []
+            pageNumbers: [],
+            visibleNumbers: 3
         },
         interaction: {
             visibleColumns: ['name', 'last_mod'],
