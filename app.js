@@ -120,7 +120,7 @@ new Vue({
 
             Vue.set(self.pagination, 'currentPage', page);
 
-            Vue.set(self.cervejaria, 'list', self.cervejarias.paginated[page-1]);
+            Vue.set(self.cervejarias, 'list', self.cervejarias.paginated[page-1]);
         },
 
         next: function(ev)
