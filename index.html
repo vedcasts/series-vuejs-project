@@ -212,7 +212,8 @@
                         </li>
                         <li
                             v-for="pageNumber in pagination.pageNumbers"
-                            v-bind:class="{ active:pageNumber == pagination.currentPage }">
+                            v-bind:class="{ active:pageNumber == pagination.currentPage }"
+                            v-if="Math.abs(pageNumber - pagination.currentPage) <= pagination.visibleNumbers">
                             <a href="#" v-on:click="page($event, pageNumber)">{{ pageNumber }}</a>
                         </li>
                         <li v-bind:class="{ disabled:pagination.currentPage == pagination.totalPages }">
