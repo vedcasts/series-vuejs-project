@@ -267,7 +267,7 @@ new Vue({
             placeholder: 'Selecionar uma ou mais colunas para filtrar!'
         }).on('change', function()
         {
-            Vue.set(self.interaction, 'columnsToFilter', jQuery(this).val());
+            Vue.set(self.interaction, 'columnsToFilter', jQuery(this).val() || []);
         });
     }
 });
