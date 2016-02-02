@@ -69,7 +69,11 @@ new Vue({
         {
             ev.preventDefault();
 
-            Vue.set(this, 'cervejaria', cervejaria);
+            this.cervejaria.name = cervejaria.name;
+            this.cervejaria.city = cervejaria.city;
+            this.cervejaria.state = cervejaria.state;
+            this.cervejaria.country = cervejaria.country;
+            this.cervejaria.descript = cervejaria.descript;
 
             jQuery(this.$els.modal).modal('show');
         },
